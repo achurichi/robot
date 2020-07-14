@@ -6,12 +6,9 @@
 class SerialCom
 {
     public:
-        SerialCom(uint32_t port);
-        bool write(String msg);
+        void init(uint32_t port);
+        void write(String msg);
         String read();
-
-    private:
-        uint32_t port;
 };
 
 #endif

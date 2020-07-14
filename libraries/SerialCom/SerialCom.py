@@ -1,7 +1,6 @@
 import glob
 import serial
 import zlib
-import time
 
 
 class SerialCom:
@@ -22,12 +21,13 @@ class SerialCom:
         """Write data to the serial port"""
         data_crc = data + '_' + self.get_crc(data) + '\n'
         self.serial_port.write(str.encode(data_crc))
-        # self.serial_port.close()
 
     def read(self):
         """Read data from the serial port"""
+        # if not self.serial_port.in_waiting:
         rawString = self.serial_port.readline().decode('utf-8')[0:-2]
-        # self.serial_port.close()
+        # else:
+        # rawString = "asdasd"
         idx = rawString.find('_')
         msg = rawString[:idx]
         crc = rawString[idx+1:]
@@ -36,10 +36,3 @@ class SerialCom:
             return msg
         else:
             return '%%error'
-
-
-mySerial = SerialCom()
-while True:
-    mySerial.write("Hello!")
-    time.sleep(1)
-# print(mySerial.read())

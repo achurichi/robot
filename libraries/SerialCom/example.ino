@@ -1,14 +1,17 @@
 #include "SerialCom.h"
 
-SerialCom mySerial;
+SerialCom arduino_serial;
 
 void setup() {
-    pinMode(LED_BUILTIN, OUTPUT);
-    digitalWrite(LED_BUILTIN, LOW);
+    arduino_serial.init();
 }
 
 void loop() {
-    mySerial.write(mySerial.read());
-
-    delay(1000);
+    // if (arduino_serial.read() == "Raspberry says Hello!")
+    // {
+    //     arduino_serial.write("Arduino received Hello from Raspberry");
+    //     delay(1000);
+    //     arduino_serial.write("Arduino says Hello!");
+    // }
+    // delay(1000);
 }

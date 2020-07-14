@@ -1,13 +1,14 @@
 #include "SerialCom.h"
 #include "CRC32.h"
 
-SerialCom::SerialCom(uint32_t port=115200)
+// Initialize the serial communication with the specified baud rate
+void SerialCom::init(uint32_t port=115200)
 {
-    this->port = port;
+    Serial.begin(port);
 }
 
-// Send the message for the serial port with the specified baud rate 
-bool SerialCom::write(String msg)
+// Send the message through the serial port 
+void SerialCom::write(String msg)
 {
     CRC32 crc;
     for (int i=0; i<msg.length(); i++)
@@ -15,11 +16,7 @@ bool SerialCom::write(String msg)
     msg += "_";
     msg += String(crc.finalize());
 
-    Serial.begin(this->port);
     Serial.println(msg);
-    // Serial.end();
-
-    return true; //Add comprobation method
 }
 
 // Read all the content in the serial port
@@ -31,11 +28,8 @@ String SerialCom::read()
     CRC32 crc;
     uint8_t data_byte;
 
-    Serial.begin(this->port);
     if (Serial.available() > 0) 
     {
-        delay(2);
-        msg = ""; //sacar
         while (Serial.available() > 0)
         {
             data_byte = Serial.read();
@@ -53,7 +47,6 @@ String SerialCom::read()
             }
         }
     }
-    // Serial.end();
 
     crc_code = crc_code.substring(0, crc_code.length() - 1); // Remove '\n' at the end
     if (crc_code == String(crc.finalize()))
