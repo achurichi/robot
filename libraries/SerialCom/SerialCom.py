@@ -1,12 +1,12 @@
 import glob
 import serial
+import zlib
 import time
 
 
-# time.sleep(0.1)
-
-
 class SerialCom:
+
+    def get_crc(self, txt): return str(zlib.crc32(str.encode(txt)))
 
     def __init__(self, port=None, baud_rate=115200):
         """Establish connection with the serial port. By default it 
@@ -17,16 +17,29 @@ class SerialCom:
         else:
             ports = glob.glob('/dev/' + port)
         self.serial_port = serial.Serial(ports[0], baud_rate)
-        # time.sleep(2)
 
-    def serial_write(self, data):
+    def write(self, data):
         """Write data to the serial port"""
-        # try:
-        self.serial_port.write(str.encode(data))
-        # except serial.serialutil.SerialException:
-        # pass
+        data_crc = data + '_' + self.get_crc(data) + '\n'
+        self.serial_port.write(str.encode(data_crc))
+        # self.serial_port.close()
 
-    def serial_read(self):
+    def read(self):
         """Read data from the serial port"""
-        self.serial_port.write(str.encode(f'{axis_value:.2f}'))
-        self.serial_port.close()
+        rawString = self.serial_port.readline().decode('utf-8')[0:-2]
+        # self.serial_port.close()
+        idx = rawString.find('_')
+        msg = rawString[:idx]
+        crc = rawString[idx+1:]
+
+        if self.get_crc(msg) == crc:
+            return msg
+        else:
+            return '%%error'
+
+
+mySerial = SerialCom()
+while True:
+    mySerial.write("Hello!")
+    time.sleep(1)
+# print(mySerial.read())
