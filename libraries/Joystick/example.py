@@ -1,4 +1,4 @@
-from joystick import Joystick
+import Joystick
 import time
 
 myJoy = Joystick()
