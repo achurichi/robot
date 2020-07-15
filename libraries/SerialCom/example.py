@@ -1,22 +1,20 @@
 from SerialCom import SerialCom
 import time
+import threading
 
 pi_serial = SerialCom()
 
-# pi_serial.write("Raspberry says Hello!")
-# print("Raspberry says Hello!")
 
-# while True:
-# time.sleep(1)
-# print(pi_serial.read())
-# if pi_serial.read() == "Arduino says Hello!":
-    # print("Raspberry received Hello from Arduino")
-    # time.sleep(1)
-    # pi_serial.write("Raspberry says Hello!")
-    #     print("Raspberry says Hello!")
-    #     time.sleep(1)
-    # else:
-    # pi_serial.write("Raspberry says Hello!")
-    # print("Raspberry says Hello!")
+def send_data():
+    pi_serial.write("Raspberry says Hello!")
+    # pi_serial.read()
+    threading.Timer(0.9, send_data).start()
 
-pi_serial.write("Raspberry says Hello!")
+
+def read_data():
+    print(pi_serial.read())
+    threading.Timer(1, read_data).start()
+
+
+send_data()
+read_data()
