@@ -1,6 +1,7 @@
 import glob
 import serial
 import zlib
+import time
 
 
 class SerialCom:
@@ -16,12 +17,14 @@ class SerialCom:
         else:
             ports = glob.glob('/dev/' + port)
         self.serial_port = serial.Serial(ports[0], baud_rate, timeout=timeout)
+        self.serial_port.flushInput()
+
+        time.sleep(2)
 
     def write(self, data):
         """Write data to the serial port"""
         data_crc = data + '_' + self.get_crc(data) + '\n'
         self.serial_port.write(str.encode(data_crc))
-        # self.serial_port.write(str.encode(data + '\n'))
 
     def read(self):
         """Read data from the serial port"""
