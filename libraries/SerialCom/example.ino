@@ -3,6 +3,8 @@
 
 SerialCom arduino_serial;
 
+String asd = "nada";
+
 void setup() {
     arduino_serial.init();
 

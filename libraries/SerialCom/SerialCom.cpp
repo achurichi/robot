@@ -24,39 +24,22 @@ void SerialCom::write(String msg)
 String SerialCom::read()
 {
     String msg = "";
-    String crc_code = "";
-    bool is_crc = false;
+    String crc_from_msg = "";
+    int underscore_idx;
     CRC32 crc;
-    uint8_t data_byte;
-
-    // if (Serial.available() > 0) 
-    // {
-    //     while (Serial.available() > 0)
-    //     {
-    //         data_byte = Serial.read();
-    //         if (char(data_byte) == '_') // Next byte is crc
-    //             is_crc = true;
-    //         else
-    //         {
-    //             if (is_crc) // Read crc
-    //                 crc_code += char(data_byte);  
-    //             else // Read data
-    //             {
-    //                 crc.update(data_byte);
-    //                 msg += char(data_byte);  
-    //             }
-    //         }
-    //     }
-    // }
 
     if (Serial.available() > 0)
         msg = Serial.readStringUntil('\n');
+    
+    underscore_idx = msg.lastIndexOf('_');
+    crc_from_msg = msg.substring(underscore_idx + 1, msg.length());
+    msg = msg.substring(0, underscore_idx);
 
-    return msg;
+    for (int i=0; i<msg.length(); i++)
+        crc.update((byte)msg.charAt(i));
 
-    // crc_code = crc_code.substring(0, crc_code.length() - 1); // Remove '\n' at the end
-    // if (crc_code == String(crc.finalize()))
-    //     return msg;
-    // else
-    //     return "%%error";
+    if (crc_from_msg == String(crc.finalize()))
+        return msg;
+    else
+        return "%%error";
 }
