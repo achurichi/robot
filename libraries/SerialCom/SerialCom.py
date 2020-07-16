@@ -19,9 +19,9 @@ class SerialCom:
 
     def write(self, data):
         """Write data to the serial port"""
-        data_crc = data + '_' + self.get_crc(data) + '\n'
-        self.serial_port.write(str.encode(data_crc))
-        # self.serial_port.read()
+        # data_crc = data + '_' + self.get_crc(data) + '\n'
+        # self.serial_port.write(str.encode(data_crc))
+        self.serial_port.write(str.encode(data + '\n'))
 
     def read(self):
         """Read data from the serial port"""

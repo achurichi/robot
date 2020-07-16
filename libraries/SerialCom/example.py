@@ -7,8 +7,7 @@ pi_serial = SerialCom()
 
 def send_data():
     pi_serial.write("Raspberry says Hello!")
-    # pi_serial.read()
-    threading.Timer(0.9, send_data).start()
+    threading.Timer(0.02, send_data).start()
 
 
 def read_data():
