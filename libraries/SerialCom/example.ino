@@ -3,8 +3,6 @@
 
 SerialCom arduino_serial;
 
-String asd = "nada";
-
 void setup() {
     arduino_serial.init();
 
@@ -15,12 +13,12 @@ void setup() {
 }
 
 ISR(TIMER3_COMPA_vect){ // timer3 interrupt
-    sei();//allow interrupts
+    sei(); // allow interrupts
     arduino_serial.write("Arduino says Hello!");
 }
 
 ISR(TIMER4_COMPA_vect){ // timer4 interrupt
-    sei();//allow interrupts
+    sei(); // allow interrupts
     if (arduino_serial.read() == "Raspberry says Hello!")
         digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));  
 }
