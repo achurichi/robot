@@ -29,7 +29,7 @@ class SerialCom:
     def read(self):
         """Read data from the serial port"""
         rawString = self.serial_port.readline().decode('utf-8').rstrip()
-        idx = rawString.find('_')
+        idx = rawString.rfind('_')
         msg = rawString[:idx]
         crc = rawString[idx+1:]
 

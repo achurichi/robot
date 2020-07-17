@@ -29,4 +29,14 @@ void timer4_init(float time){
     sei();//allow interrupts
 }
 
+// Data struct
+typedef struct data
+{
+    uint8_t m_1;          
+    uint8_t m_2;          
+    uint8_t m_3;          
+    bool state;           
+
+} data;
+
 #endif
