@@ -1,8 +1,8 @@
-from libraries.SerialCom import SerialCom
+from robot.serial_com import Serial_com
 import threading
 import json
 
-pi_serial = SerialCom.SerialCom()
+pi_serial = Serial_com()
 
 data_set = {"pi_says": "Hello!", "numbers": [1.1, 2.123, 3]}
 

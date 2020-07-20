@@ -4,7 +4,7 @@ import zlib
 import time
 
 
-class SerialCom:
+class Serial_com:
 
     def get_crc(self, txt): return str(zlib.crc32(str.encode(txt)))
 

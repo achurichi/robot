@@ -1,4 +1,4 @@
-import Joystick
+from robot.joystick import Joystick
 import time
 
 myJoy = Joystick()

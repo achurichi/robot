@@ -1,6 +1,6 @@
 #include <ArduinoJson.h>
-#include "libraries/SerialCom/SerialCom.h"
-#include "libraries/utils.h"
+#include "src/arduino/libraries/SerialCom.h"
+#include "src/arduino/libraries/utils.h"
 
 SerialCom arduino_serial;
 data myData;
@@ -8,7 +8,7 @@ StaticJsonDocument<400> doc_read;
 StaticJsonDocument<400> doc_send;
 
 void setup() {
-    arduino_serial.init();
+    arduino_serial.init(115200);
     timer3_init(1); 
     timer4_init(1); 
 

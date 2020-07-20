@@ -1,2 +1,7 @@
-*__pycache__/
+*.gitignore
 *.vscode/
+*__pycache__/
+*dist
+*.egg-info
+*setup.py
+*more_tests

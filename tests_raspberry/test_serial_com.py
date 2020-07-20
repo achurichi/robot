@@ -1,8 +1,8 @@
-from SerialCom import SerialCom
+from robot.serial_com import Serial_com
 import time
 import threading
 
-pi_serial = SerialCom()
+pi_serial = Serial_com()
 
 
 def send_data():
