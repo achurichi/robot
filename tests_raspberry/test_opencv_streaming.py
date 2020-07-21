@@ -3,14 +3,33 @@ import logging
 import socketserver
 from http import server
 
+faceCascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+
 
 def frame_processing(camera):
-    grabbed, frame = camera.read()  # grab the current frame
-    frame = cv2.resize(frame, (640, 360))  # resize the frame
-    # frame = cv2.transpose(frame)
-    # frame = cv2.flip(frame, flipCode=0)
+    grabbed, frame = camera.read()  # 640x480
+    frame = frame[60:420, :]  # 640x360
+    frame = cv2.rotate(frame, cv2.ROTATE_180)
+
+    frame = face_detection(frame)
+
     encoded, buffer = cv2.imencode('.jpg', frame)
     return buffer
+
+
+def face_detection(frame):
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    faces = faceCascade.detectMultiScale(
+        gray,
+        scaleFactor=1.1,
+        minNeighbors=5,
+        minSize=(30, 30),
+        flags=cv2.CASCADE_SCALE_IMAGE
+    )
+    for (x, y, w, h) in faces:
+        cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+
+    return frame
 
 
 class streaming_handler(server.BaseHTTPRequestHandler):
