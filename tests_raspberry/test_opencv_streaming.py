@@ -2,6 +2,7 @@ import cv2
 import logging
 import socketserver
 from http import server
+import time
 
 faceCascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 
@@ -14,6 +15,7 @@ def frame_processing(camera):
     frame = face_detection(frame)
 
     encoded, buffer = cv2.imencode('.jpg', frame)
+
     return buffer
 
 
