@@ -1,74 +1,82 @@
 from evdev import InputDevice, categorize, ecodes
+import os
+
+# button code variables
+codes = {
+    0: 'left_horz_stick',
+    1: 'left_vert_stick',
+    2: 'right_horz_stick',
+    5: 'right_vert_stick',
+    16: 'horz_arrow',
+    17: 'vert_arrow',
+    304: 'A',
+    305: 'B',
+    307: 'X',
+    308: 'Y',
+    310: 'L1',
+    311: 'R1',
+    312: 'L2',
+    313: 'R2',
+    314: 'select',
+    315: 'start',
+    317: 'L3',
+    318: 'R3',
+}
+
+btn_values = {
+    'left_horz_stick': 128,
+    'left_vert_stick': 128,
+    'right_horz_stick': 128,
+    'right_vert_stick': 128,
+    'horz_arrow': 0,
+    'vert_arrow': 0,
+    'A': 0,
+    'B': 0,
+    'X': 0,
+    'Y': 0,
+    'L1': 0,
+    'R1': 0,
+    'L2': 0,
+    'R2': 0,
+    'select': 0,
+    'start': 0,
+    'L3': 0,
+    'R3': 0,
+}
+
+
+def get_pressed(btn_values):
+    pressed = {k: v for k, v in btn_values.items() if v != 0}
+    pressed['left_horz_stick'] = btn_values['left_horz_stick']
+    pressed['left_vert_stick'] = btn_values['left_vert_stick']
+    pressed['right_horz_stick'] = btn_values['right_horz_stick']
+    pressed['right_vert_stick'] = btn_values['right_vert_stick']
+
+    if pressed['left_horz_stick'] == 128:
+        del pressed['left_horz_stick']
+    if pressed['left_vert_stick'] == 128:
+        del pressed['left_vert_stick']
+    if pressed['right_horz_stick'] == 128:
+        del pressed['right_horz_stick']
+    if pressed['right_vert_stick'] == 128:
+        del pressed['right_vert_stick']
+
+    return pressed
+
+
+def gamepad_init():
+    # print('pase')
+    os.system('expect bluetoothpair.sh')
+
+
+gamepad_init()
 
 # creates object 'gamepad' to store the data
 gamepad = InputDevice('/dev/input/event1')
 
-# button code variables (change to suit your device)
-left_horz_stick = 0
-left_vert_stick = 1
-right_horz_stick = 2
-right_vert_stick = 5
-horz_arrow = 16
-left_value = -1
-right_value = 1
-vert_arrow = 17
-up_value = -1
-down_value = 1
-aBtn = 304
-bBtn = 305
-xBtn = 307
-yBtn = 308
-L1 = 310
-R1 = 311
-L2 = 312
-R2 = 313
-select = 314
-start = 315
-L3 = 317
-R3 = 318
-
-
 # loop and filter by event code and print the mapped label
 for event in gamepad.read_loop():
     if event.type == ecodes.EV_KEY or event.type == ecodes.EV_ABS:
-        if event.code == left_horz_stick:
-            print("left_horz_stick"),
-        elif event.code == left_vert_stick:
-            print("left_vert_stick"),
-        elif event.code == right_horz_stick:
-            print("right_horz_stick"),
-        elif event.code == right_vert_stick:
-            print("right_vert_stick"),
-        elif event.code == horz_arrow:
-            print("horz_arrow"),
-        elif event.code == vert_arrow:
-            print("vert_arrow"),
-        elif event.code == aBtn:
-            print("A"),
-        elif event.code == bBtn:
-            print("B"),
-        elif event.code == xBtn:
-            print("X"),
-        elif event.code == yBtn:
-            print("Y"),
-        elif event.code == L1:
-            print("L1"),
-        elif event.code == R1:
-            print("R1"),
-        elif event.code == L2:
-            print("L2"),
-        elif event.code == R2:
-            print("R2"),
-        elif event.code == L3:
-            print("L3"),
-        elif event.code == R3:
-            print("R3"),
-        elif event.code == select:
-            print("select"),
-        elif event.code == start:
-            print("start"),
-
-        print(event.value)
-
-        # print(device.capabilities())
-# device.capabilities(verbose=True))
+        if event.code in codes.keys():
+            btn_values[codes[event.code]] = event.value
+            print(get_pressed(btn_values))
