@@ -56,7 +56,7 @@ class Gamepad:
         """
         try:
             os.system(
-                'expect /home/pi/Documents/robot/src/raspberry/robot/bluetoothpair.sh')
+                'expect /home/pi/Documents/robot/src/raspberry/packages/robot/bluetoothpair.sh')
             self.gamepad = InputDevice('/dev/input/event' + str(event_num))
         except:
             return False

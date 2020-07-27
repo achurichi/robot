@@ -32,9 +32,7 @@ void timer4_init(float time){
 // Data struct
 typedef struct data
 {
-    uint8_t m_1;          
-    uint8_t m_2;          
-    uint8_t m_3;          
+    uint16_t motor[12];          
     bool state;           
 
 } data;

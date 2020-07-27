@@ -97,7 +97,7 @@ void loop()
 
     lcd.clear();
     lcd.setCursor(0, 0);
-    lcd.print("Test Line 3");
+    lcd.print("Test Line222 3");
     lcd.setCursor(0, 1);
     lcd.print("Test Line 4");
     delay(500);
