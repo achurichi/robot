@@ -1,5 +1,4 @@
-# from robot.gamepad import Gamepad
-from gamepad import Gamepad
+from robot.gamepad import Gamepad
 from threading import Thread
 import time
 
