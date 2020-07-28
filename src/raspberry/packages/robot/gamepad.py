@@ -4,7 +4,7 @@ import os
 
 class Gamepad:
 
-    def __init__(self, event_num=1):
+    def __init__(self):
         self.codes = {
             0: 'left_horz_axis',
             1: 'left_vert_axis',
@@ -47,8 +47,6 @@ class Gamepad:
             'R3': 0,
         }
 
-        self.gamepad_init(event_num)
-
     def gamepad_init(self, event_num=1):
         """Initialize the connection with the gamepad. The default 
         event number is 1. Returns True if the connection was succesfully 
@@ -63,8 +61,8 @@ class Gamepad:
         return True
 
     def get_pressed(self):
-        """Returns a dict with the pressed buttons or moved axis controlles
-        """
+        """Returns a dict with the pressed buttons or moved axis controlles"""
+
         pressed = {k: v for k, v in self.btn_values.items() if v != 0}
         pressed['left_horz_axis'] = self.btn_values['left_horz_axis']
         pressed['left_vert_axis'] = self.btn_values['left_vert_axis']

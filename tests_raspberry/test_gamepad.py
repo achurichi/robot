@@ -1,4 +1,5 @@
-from robot.gamepad import Gamepad
+# from robot.gamepad import Gamepad
+from gamepad import Gamepad
 from threading import Thread
 import time
 
@@ -16,6 +17,11 @@ class update_data(Thread):
 
 
 my_gamepad = Gamepad()
+
+result = my_gamepad.gamepad_init()
+while result == False:
+    result = my_gamepad.gamepad_init()
+
 update_data_daemon = update_data(my_gamepad)
 
 while True:
