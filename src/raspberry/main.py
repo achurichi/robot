@@ -4,9 +4,10 @@ from threading import Thread
 import json
 import time
 
-pi_serial = Serial_com()
+pi_serial = Serial_com(baud_rate=115200)
 
-data = {"motor": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]}
+data = {'motor': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+        'state': 'test'}
 
 
 class Send_data(Thread):
@@ -38,8 +39,12 @@ class Update_gamepad(Thread):
 
 
 my_gamepad = Gamepad()
-gamepad_daemon = Update_gamepad(my_gamepad)
 
+result = my_gamepad.gamepad_init()
+while result == False:
+    result = my_gamepad.gamepad_init()
+
+gamepad_daemon = Update_gamepad(my_gamepad)
 send_data_daemon = Send_data()
 
 while True:

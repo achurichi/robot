@@ -13,9 +13,9 @@ StaticJsonDocument<400> doc_read; // Readed JSON document
 
 LiquidCrystal_I2C lcd(0x3F, 16, 2); // set the LCD address to 0x3F for a 16 chars and 2 line display
 
-
 void setup() {
     arduino_serial.init(115200); // Serial initialization
+
     timer3_init(0.02); // Timer3 initialization
     // timer4_init(1); // Timer4 initialization
 
@@ -28,13 +28,25 @@ void setup() {
     myData.state = false;
 }
 
-// Every 20ms read coming data from Raspberry
+void loop() {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Motor 0: ");
+    lcd.print(String(myData.motor[0]));
+    delay(100);
+}
+
+//-------------------- Functions --------------------
+
+// Timers
+
 ISR(TIMER3_COMPA_vect){ // timer3 interrupt
     sei(); // allow interrupts
     
     String msg = arduino_serial.read();
     if (msg != "%%error") {
     deserializeJson(doc_read, msg);
+
     for (int i=0; i<12; i++)
         myData.motor[i] = doc_read["motor"][i];
     }
@@ -50,11 +62,3 @@ ISR(TIMER3_COMPA_vect){ // timer3 interrupt
 
 //     arduino_serial.write(doc_send.as<String>());
 // }
-
-void loop() {
-    lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print("Motor 0: ");
-    lcd.print(String(myData.motor[0]));
-    delay(100);
-}
