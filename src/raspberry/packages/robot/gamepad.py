@@ -1,5 +1,9 @@
 from evdev import InputDevice, categorize, ecodes
+import subprocess
 import os
+
+BLUETOOTH_FILE = os.path.join(os.path.dirname(
+    __file__), 'bluetoothpair.sh')
 
 
 class Gamepad:
@@ -53,8 +57,7 @@ class Gamepad:
         stablished, otherwise returns False.
         """
         try:
-            os.system(
-                'expect /home/pi/Documents/robot/src/raspberry/packages/robot/bluetoothpair.sh')
+            subprocess.run(['expect', BLUETOOTH_FILE], timeout=60)
             self.gamepad = InputDevice('/dev/input/event' + str(event_num))
         except:
             return False

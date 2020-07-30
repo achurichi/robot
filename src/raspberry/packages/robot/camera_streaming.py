@@ -1,6 +1,10 @@
 import cv2
 import socketserver
 from http import server
+import os
+
+HAARCASCADE_FILE = os.path.join(os.path.dirname(
+    __file__), 'haarcascade_frontalface_default.xml')
 
 
 class Streaming_handler(server.BaseHTTPRequestHandler):
@@ -80,7 +84,7 @@ class Stream():
 
     def __init__(self,
                  address=8000,
-                 face_cascade_path='/home/pi/Documents/robot/src/raspberry/robot/haarcascade_frontalface_default.xml',
+                 face_cascade_path=HAARCASCADE_FILE,
                  face_detection_on=False):
         """Initialize the camera to get the frames and the frame processor"""
         self.address = address

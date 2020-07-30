@@ -1,0 +1,2 @@
+include robot/bluetoothpair.sh
+include robot/haarcascade_frontalface_default.xml

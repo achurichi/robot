@@ -18,12 +18,18 @@ class update_data(Thread):
 my_gamepad = Gamepad()
 
 result = my_gamepad.gamepad_init()
-while result == False:
+try_count = 0
+
+while result == False and try_count < 3:
+    try_count += 1
     result = my_gamepad.gamepad_init()
 
-update_data_daemon = update_data(my_gamepad)
+if try_count < 3:
+    update_data_daemon = update_data(my_gamepad)
 
-while True:
-    pressed = my_gamepad.get_pressed()
-    print(pressed)
-    time.sleep(0.01)
+    while True:
+        pressed = my_gamepad.get_pressed()
+        print(pressed)
+        time.sleep(0.01)
+else:
+    print("Can't connect the gamepad")
