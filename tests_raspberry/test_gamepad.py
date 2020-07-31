@@ -17,14 +17,9 @@ class update_data(Thread):
 
 my_gamepad = Gamepad()
 
-result = my_gamepad.gamepad_init()
-try_count = 0
+result = my_gamepad.connect(tries=3)
 
-while result == False and try_count < 3:
-    try_count += 1
-    result = my_gamepad.gamepad_init()
-
-if try_count < 3:
+if result == True:
     update_data_daemon = update_data(my_gamepad)
 
     while True:

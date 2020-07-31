@@ -51,17 +51,24 @@ class Gamepad:
             'R3': 0,
         }
 
-    def gamepad_init(self, event_num=1):
+    def connect(self, event_num=1, tries=1):
         """Initialize the connection with the gamepad. The default 
-        event number is 1. Returns True if the connection was succesfully 
-        stablished, otherwise returns False.
+        event number is 1. The default number of tries is 1.
+        Returns True if the connection was successfully stablished, 
+        otherwise returns False.
         """
-        try:
-            subprocess.run(['expect', BLUETOOTH_FILE], timeout=60)
-            self.gamepad = InputDevice('/dev/input/event' + str(event_num))
-        except:
-            return False
-        return True
+        tries_count = 0
+
+        while tries_count < tries:
+            tries_count += 1
+            try:
+                subprocess.run(['expect', BLUETOOTH_FILE], timeout=30)
+                self.gamepad = InputDevice('/dev/input/event' + str(event_num))
+                return True
+            except:
+                pass
+
+        return False
 
     def get_pressed(self):
         """Returns a dict with the pressed buttons or moved axis controlles"""
