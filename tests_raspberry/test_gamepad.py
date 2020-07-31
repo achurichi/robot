@@ -1,26 +1,11 @@
-from robot.gamepad import Gamepad
-from threading import Thread
+from robot.gamepad import Gamepad, Gamepad_update_daemon
 import time
 
-
-class update_data(Thread):
-
-    def __init__(self, gamepad=None):
-        self.gamepad = gamepad
-        Thread.__init__(self)
-        self.daemon = True
-        self.start()
-
-    def run(self):
-        self.gamepad.update()
-
-
 my_gamepad = Gamepad()
-
 result = my_gamepad.connect(tries=3)
 
 if result == True:
-    update_data_daemon = update_data(my_gamepad)
+    daemon = Gamepad_update_daemon(my_gamepad)
 
     while True:
         pressed = my_gamepad.get_pressed()

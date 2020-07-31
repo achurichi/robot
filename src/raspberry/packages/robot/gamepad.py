@@ -1,6 +1,9 @@
 from evdev import InputDevice, categorize, ecodes
 import subprocess
 import os
+from threading import Thread
+import time
+
 
 BLUETOOTH_FILE = os.path.join(os.path.dirname(
     __file__), 'bluetoothpair.sh')
@@ -98,3 +101,15 @@ class Gamepad:
             if event.type == ecodes.EV_KEY or event.type == ecodes.EV_ABS:
                 if event.code in self.codes.keys():
                     self.btn_values[self.codes[event.code]] = event.value
+
+
+class Gamepad_update_daemon(Thread):
+
+    def __init__(self, gamepad=None):
+        self.gamepad = gamepad
+        Thread.__init__(self)
+        self.daemon = True
+        self.start()
+
+    def run(self):
+        self.gamepad.update()
