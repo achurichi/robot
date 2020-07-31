@@ -1,21 +1,7 @@
-from robot import camera_streaming
-from threading import Thread
+from robot.camera_streaming import Stream, Stream_daemon
 
-
-class Straming_daemon(Thread):
-
-    def __init__(self, gamepad=None):
-        self.gamepad = gamepad
-        Thread.__init__(self)
-        self.daemon = True
-        self.start()
-
-    def run(self):
-        my_stream.start_streaming()
-
-
-my_stream = camera_streaming.Stream()
-daemon = Straming_daemon(my_stream)
+my_stream = Stream()
+daemon = Stream_daemon(my_stream)
 
 while True:
     if my_stream.frame_processor.face_detection_on:

@@ -2,6 +2,8 @@ import cv2
 import socketserver
 from http import server
 import os
+from threading import Thread
+
 
 HAARCASCADE_FILE = os.path.join(os.path.dirname(
     __file__), 'haarcascade_frontalface_default.xml')
@@ -102,3 +104,15 @@ class Stream():
             server.serve_forever()
         finally:
             self.camera.release()
+
+
+class Stream_daemon(Thread):
+
+    def __init__(self, stream=None):
+        self.stream = stream
+        Thread.__init__(self)
+        self.daemon = True
+        self.start()
+
+    def run(self):
+        self.stream.start_streaming()
