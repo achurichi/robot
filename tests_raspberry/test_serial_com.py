@@ -1,19 +1,11 @@
-from robot.serial_com import Serial_com
+from robot.serial_com import *
 import time
-import threading
 
 pi_serial = Serial_com()
 
+send_daemon = Serial_send_daemon(pi_serial, {'Raspberry': 'Hello!'})
+read_daemon = Serial_read_daemon(pi_serial)
 
-def send_data():
-    pi_serial.write("Raspberry says Hello!")
-    threading.Timer(0.02, send_data).start()
-
-
-def read_data():
-    print(pi_serial.read())
-    threading.Timer(1, read_data).start()
-
-
-send_data()
-read_data()
+while True:
+    print(read_daemon.msg)
+    time.sleep(1)

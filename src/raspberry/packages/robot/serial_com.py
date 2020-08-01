@@ -2,6 +2,8 @@ import glob
 import serial
 import zlib
 import time
+from threading import Thread
+import json
 
 
 class Serial_com:
@@ -37,3 +39,39 @@ class Serial_com:
             return msg
         else:
             return '%%error'
+
+
+class Serial_send_daemon(Thread):
+    """Send a message through serial every x seconds.
+    Defualt is 2ms."""
+
+    def __init__(self, pi_serial, msg=None, interval=0.02):
+        self.pi_serial = pi_serial
+        self.msg = msg
+        self.interval = interval
+        Thread.__init__(self)
+        self.daemon = True
+        self.start()
+
+    def run(self):
+        while True:
+            self.pi_serial.write(json.dumps(self.msg))
+            time.sleep(self.interval)
+
+
+class Serial_read_daemon(Thread):
+    """Read the message comming from serial every x seconds.
+    Defualt is 1s."""
+
+    def __init__(self, pi_serial, interval=1):
+        self.pi_serial = pi_serial
+        self.interval = interval
+        self.msg = None
+        Thread.__init__(self)
+        self.daemon = True
+        self.start()
+
+    def run(self):
+        while True:
+            self.msg = self.pi_serial.read()
+            time.sleep(self.interval)
