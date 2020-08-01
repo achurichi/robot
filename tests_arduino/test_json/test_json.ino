@@ -1,6 +1,6 @@
 #include <ArduinoJson.h>
-#include "src/arduino/libraries/SerialCom.h"
-#include "src/arduino/libraries/utils.h"
+#include <SerialCom.h>
+#include <Utils.h>
 
 SerialCom arduino_serial;
 data myData;
