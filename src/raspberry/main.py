@@ -1,57 +1,27 @@
-from robot.serial_com import Serial_com
-from robot.gamepad import Gamepad
-from threading import Thread
-import json
+from robot.serial_com import *
+from robot.gamepad import Gamepad, Gamepad_update_daemon
 import time
-
-pi_serial = Serial_com(baud_rate=115200)
 
 data = {'motor': [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         'state': 'test'}
 
-
-class Send_data(Thread):
-    """Send data to Arduino every 2ms"""
-
-    def __init__(self, interval=0.02):
-        self.interval = interval
-        Thread.__init__(self)
-        self.daemon = True
-        self.start()
-
-    def run(self):
-        while True:
-            pi_serial.write(json.dumps(data))
-            time.sleep(self.interval)
-
-
-class Update_gamepad(Thread):
-    """Always reading the gamepad"""
-
-    def __init__(self, gamepad=None):
-        self.gamepad = gamepad
-        Thread.__init__(self)
-        self.daemon = True
-        self.start()
-
-    def run(self):
-        self.gamepad.update()
-
+pi_serial = Serial_com(baud_rate=115200)
+send_daemon = Serial_send_daemon(pi_serial, data)
+read_daemon = Serial_read_daemon(pi_serial)
 
 my_gamepad = Gamepad()
+result = my_gamepad.connect(tries=3)
 
-result = my_gamepad.gamepad_init()
-while result == False:
-    result = my_gamepad.gamepad_init()
+if result == True:
+    gamepad_daemon = Gamepad_update_daemon(my_gamepad)
 
-gamepad_daemon = Update_gamepad(my_gamepad)
-send_data_daemon = Send_data()
-
-while True:
-    pressed = my_gamepad.get_pressed()
-    if 'right_horz_axis' in pressed:
-        if pressed['right_horz_axis'] > 128 and data['motor'][0] < 128:
-            data['motor'][0] += 1
-        elif data['motor'][0] > 0:
-            data['motor'][0] -= 1
-        time.sleep(0.05)
+    while True:
+        pressed = my_gamepad.get_pressed()
+        if 'right_horz_axis' in pressed:
+            if pressed['right_horz_axis'] > 128 and data['motor'][0] < 128:
+                data['motor'][0] += 1
+            elif data['motor'][0] > 0:
+                data['motor'][0] -= 1
+            time.sleep(0.05)
+else:
+    print("Can't connect the gamepad")

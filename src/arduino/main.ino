@@ -1,9 +1,8 @@
 #include <ArduinoJson.h>
 #include <Wire.h>
 #include <LiquidCrystal_I2C.h>
-
-#include "libraries/SerialCom/SerialCom.cpp"
-#include "libraries/utils.h"
+#include <SerialCom.h>
+#include <Utils.h>
 
 SerialCom arduino_serial;
 
