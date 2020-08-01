@@ -3,3 +3,4 @@
 *dist
 *.egg-info
 *more_tests
+move_libraries.sh
