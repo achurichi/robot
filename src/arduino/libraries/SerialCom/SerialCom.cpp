@@ -5,7 +5,7 @@
 void SerialCom::init(uint32_t port=115200)
 {
     Serial.begin(port);
-    Serial.setTimeout(10);
+    Serial.setTimeout(4);
 }
 
 // Send the message through the serial port 
