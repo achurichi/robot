@@ -1,6 +1,6 @@
 import glob
 import serial
-import zlib
+import crc16
 import time
 from threading import Thread
 import json
@@ -8,7 +8,7 @@ import json
 
 class Serial_com:
 
-    def get_crc(self, txt): return str(zlib.crc32(str.encode(txt)))
+    def get_crc(self, txt): return str(crc16.crc16xmodem(str.encode(txt)))
 
     def __init__(self, port=None, baud_rate=115200, timeout=0.25):  # timeout=0.025
         """Establish connection with the serial port. By default it 

@@ -1,5 +1,5 @@
 #include "SerialCom.h"
-#include "CRC32.h"
+#include <Crc16.h>
 
 // Initialize the serial communication with the specified baud rate
 void SerialCom::init(uint32_t port=115200)
@@ -11,11 +11,11 @@ void SerialCom::init(uint32_t port=115200)
 // Send the message through the serial port 
 void SerialCom::write(String msg)
 {
-    CRC32 crc;
+    Crc16 crc;
     for (int i=0; i<msg.length(); i++)
-        crc.update((byte)msg[i]);
+        crc.updateCrc((byte)msg[i]);
     msg += "_";
-    msg += String(crc.finalize());
+    msg += String(crc.getCrc());
 
     Serial.println(msg);
 }
@@ -26,7 +26,7 @@ String SerialCom::read()
     String msg = "";
     String crc_from_msg = "";
     int underscore_idx;
-    CRC32 crc;
+    Crc16 crc;
 
     if (Serial.available() > 0)
         msg = Serial.readStringUntil('\n');
@@ -36,9 +36,9 @@ String SerialCom::read()
     msg = msg.substring(0, underscore_idx);
 
     for (int i=0; i<msg.length(); i++)
-        crc.update((byte)msg.charAt(i));
+        crc.updateCrc((byte)msg.charAt(i));
 
-    if (crc_from_msg == String(crc.finalize()))
+    if (crc_from_msg == String(crc.getCrc()))
         return msg;
     else
         return "%%error";
