@@ -2,9 +2,11 @@ from robot.gamepad import Gamepad, Gamepad_update_daemon
 import time
 
 my_gamepad = Gamepad()
+print("Connecting...")
 result = my_gamepad.connect(tries=3)
 
 if result == True:
+    print("Gamepad connected")
     daemon = Gamepad_update_daemon(my_gamepad)
 
     while True:
