@@ -7,13 +7,6 @@
 
 class MPU9250 {
     public:
-        float acc[3];
-        float accSqrt;
-        float gyro[3];
-        float mDirection;
-        float mag[3];
-        bool error;
-
         MPU9250();
         void init();
         bool working();
@@ -22,8 +15,6 @@ class MPU9250 {
     private:
         MPU9250_asukiaaa *sensor;
         size_t jsonCapacity;
-
-        DynamicJsonDocument toJson();
 };
 
 #endif

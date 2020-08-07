@@ -22,6 +22,7 @@ void setup()
 void loop()
 {
     serializeJson(mpuSensor.read(), Serial);
+    Serial.println();
 
     lcd.clear();
     lcd.setCursor(0, 0);
