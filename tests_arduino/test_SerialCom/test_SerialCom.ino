@@ -19,7 +19,7 @@ ISR(TIMER3_COMPA_vect){ // timer3 interrupt
 
 ISR(TIMER4_COMPA_vect){ // timer4 interrupt
     sei(); // allow interrupts
-    if (arduinoSerial.read() == "{\"Raspberry\": \"Hello!\"}")
+    if (arduinoSerial.read() == "{\"Raspberry\":\"Hello!\"}")
         digitalWrite(LED_BUILTIN, !digitalRead(LED_BUILTIN));  
 }
 

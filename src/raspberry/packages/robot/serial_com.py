@@ -55,7 +55,7 @@ class Serial_send_daemon(Thread):
 
     def run(self):
         while True:
-            self.pi_serial.write(json.dumps(self.msg))
+            self.pi_serial.write(json.dumps(self.msg, separators=(',', ':')))
             time.sleep(self.interval)
 
 
