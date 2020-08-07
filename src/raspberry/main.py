@@ -10,9 +10,11 @@ send_daemon = Serial_send_daemon(pi_serial, data)
 read_daemon = Serial_read_daemon(pi_serial)
 
 my_gamepad = Gamepad()
+print("Connecting...")
 result = my_gamepad.connect(tries=3)
 
 if result == True:
+    print("Gamepad connected")
     gamepad_daemon = Gamepad_update_daemon(my_gamepad)
 
     while True:

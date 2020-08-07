@@ -65,7 +65,9 @@ class Gamepad:
         while tries_count < tries:
             tries_count += 1
             try:
-                subprocess.run(['expect', BLUETOOTH_FILE], timeout=30)
+                subprocess.run(['expect', BLUETOOTH_FILE],
+                               stdout=subprocess.DEVNULL,
+                               timeout=30)
                 self.gamepad = InputDevice('/dev/input/event' + str(event_num))
                 return True
             except:
