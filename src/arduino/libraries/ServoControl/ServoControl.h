@@ -9,7 +9,6 @@ class ServoControl {
         void init(int, int[], int[], int[], int[]); 
         void setServo(int, int);
         void setAllServos(int[]);
-        int *servoPos;
 
     private:
         Servo *servos;
@@ -18,6 +17,7 @@ class ServoControl {
         int *servoPosMax;
         int *servoPosMin;
         int *servoPosStart;
+        int *servoPos;
 };
 
 #endif

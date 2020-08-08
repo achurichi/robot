@@ -36,5 +36,6 @@ void ServoControl::setServo(int idx, int angle) {
 // Set the position of all servos
 void ServoControl::setAllServos(int angles[]) {
     for (int i=0; i<this->numberOfServos; i++)
-        this->setServo(i, angles[i]);
+        if (this->servoPos[i] != angles[i]) // Change only if the new angle is different
+            this->setServo(i, angles[i]);
 }
