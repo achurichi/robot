@@ -9,6 +9,7 @@ class ServoControl {
         void init(int, int[], int[], int[], int[]); 
         void setServo(int, int);
         void setAllServos(int[]);
+        int getServo(int idx);
 
     private:
         Servo *servos;

@@ -28,14 +28,23 @@ void ServoControl::init(int numberOfServos, int servoPins[], int servoPosMax[],
 
 // Set the position of a servo
 void ServoControl::setServo(int idx, int angle) {
-    angle = constrain(angle, this->servoPosMin[idx], this->servoPosMax[idx]);
-    this->servos[idx].write(angle);
-    this->servoPos[idx] = angle;
+    if (this->servoPos[idx] != angle) { // Change only if the new angle is different
+        angle = constrain(angle, this->servoPosMin[idx], this->servoPosMax[idx]);
+        this->servos[idx].write(angle);
+        this->servoPos[idx] = angle;
+    }
 }
 
 // Set the position of all servos
 void ServoControl::setAllServos(int angles[]) {
+    int angle;
+
     for (int i=0; i<this->numberOfServos; i++)
-        if (this->servoPos[i] != angles[i]) // Change only if the new angle is different
-            this->setServo(i, angles[i]);
+        if (this->servoPos[i] != angles[i]) { // Change only if the new angle is different
+            angle = constrain(angles[i], this->servoPosMin[i], this->servoPosMax[i]);
+            this->servos[i].write(angle);
+            this->servoPos[i] = angle;
+        }
 }
+
+int ServoControl::getServo(int idx) { return this->servoPos[idx]; }
