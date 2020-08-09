@@ -6,19 +6,19 @@
 
 class ServoControl {
     public:
-        void init(int, int[], int[], int[], int[]); 
-        void setServo(int, int);
-        void setAllServos(int[]);
-        int getServo(int idx);
+        void init(uint8_t, uint8_t[], uint16_t[], uint16_t[], uint16_t[]); 
+        void setServo(uint8_t, uint16_t);
+        void setAllServos(uint16_t[]);
+        uint16_t getServo(uint8_t);
 
     private:
         Servo *servos;
-        int numberOfServos; 
-        int *servoPins;
-        int *servoPosMax;
-        int *servoPosMin;
-        int *servoPosStart;
-        int *servoPos;
+        uint8_t numberOfServos; 
+        uint8_t *servoPins;
+        uint16_t *servoPosMax;
+        uint16_t *servoPosMin;
+        uint16_t *servoPosStart;
+        uint16_t *servoPos;
 };
 
 #endif

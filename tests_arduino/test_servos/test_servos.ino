@@ -1,11 +1,11 @@
 #include <ServoControl.h>
 #define NUMBER_OF_SERVOS 12
 
-int servoPins[] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
-int servoPosMax[] = {180, 180, 180, 180, 180, 180, 180, 180, 180, 180, 180, 180};
-int servoPosMin[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-int servoPosSafeStart[] = {10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10};
-int servoPos[] = {10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10};
+uint8_t servoPins[] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+uint16_t servoPosMax[] = {180, 180, 180, 180, 180, 180, 180, 180, 180, 180, 180, 180};
+uint16_t servoPosMin[] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+uint16_t servoPosSafeStart[] = {10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10};
+uint16_t servoPos[] = {10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10};
 
 ServoControl servos;
 
