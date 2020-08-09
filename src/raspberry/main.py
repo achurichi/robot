@@ -24,6 +24,6 @@ if result == True:
                 data['motor'][0] += 1
             elif data['motor'][0] > 0:
                 data['motor'][0] -= 1
-            time.sleep(0.05)
+            time.sleep(0.003)
 else:
     print("Can't connect the gamepad")
