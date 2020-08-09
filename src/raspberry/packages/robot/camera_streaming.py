@@ -12,7 +12,7 @@ HAARCASCADE_FILE = os.path.join(os.path.dirname(
 class Streaming_handler(server.BaseHTTPRequestHandler):
 
     def do_GET(self):
-        if self.path == '/index.html':
+        if self.path == '/image.jpg':
             self.send_response(200)
             self.send_header('Age', 0)
             self.send_header('Cache-Control', 'no-cache, private')
