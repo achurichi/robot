@@ -21,9 +21,19 @@ if result == True:
         pressed = my_gamepad.get_pressed()
         if 'right_horz_axis' in pressed:
             if pressed['right_horz_axis'] > 128 and data['motor'][0] < 128:
-                data['motor'][0] += 1
+                for i in range(6):
+                    data['motor'][i] += 1
             elif data['motor'][0] > 0:
-                data['motor'][0] -= 1
+                for i in range(6):
+                    data['motor'][i] -= 1
+            time.sleep(0.003)
+        if 'right_vert_axis' in pressed:
+            if pressed['right_vert_axis'] > 128 and data['motor'][6] < 128:
+                for i in range(6, 12):
+                    data['motor'][i] += 1
+            elif data['motor'][6] > 0:
+                for i in range(6, 12):
+                    data['motor'][i] -= 1
             time.sleep(0.003)
 else:
     print("Can't connect the gamepad")

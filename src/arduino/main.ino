@@ -23,11 +23,12 @@ StaticJsonDocument<300> doc_read; // Readed JSON document
 
 // LiquidCrystal_I2C lcd(0x3F, 16, 2); // set the LCD address to 0x3F for a 16 chars and 2 line display
 
-void setup() {
+void setup()
+{
     arduino_serial.init(115200); // Serial initialization
 
     timer3_init(0.02); // Timer3 initialization
-    timer4_init(1); // Timer4 initialization
+    timer4_init(1);    // Timer4 initialization
 
     // lcd.init(); // Initialize the lcd
     // lcd.backlight();
@@ -40,7 +41,8 @@ void setup() {
     servos.init(NUMBER_OF_SERVOS, servoPins, servoPosMax, servoPosMin, servoPosSafeStart);
 }
 
-void loop() {
+void loop()
+{
     // lcd.clear();
     // lcd.setCursor(0, 0);
     // lcd.print("Motor 0: ");
@@ -52,20 +54,23 @@ void loop() {
 
 // Timers
 
-ISR(TIMER3_COMPA_vect){ // timer3 interrupt
+ISR(TIMER3_COMPA_vect)
+{          // timer3 interrupt
     sei(); // allow interrupts
-    
-    String msg = arduino_serial.read();
-    if (msg != "%%error") {
-    deserializeJson(doc_read, msg);
 
-    for (uint8_t i=0; i<12; i++)
-        // myData.motor[i] = doc_read["motor"][i];
-        servos.setServo(i, (uint16_t)doc_read["motor"][i]);
+    String msg = arduino_serial.read();
+    if (msg != "%%error")
+    {
+        deserializeJson(doc_read, msg);
+
+        for (uint8_t i = 0; i < NUMBER_OF_SERVOS; i++)
+            // myData.motor[i] = doc_read["motor"][i];
+            servos.setServo(i, (uint16_t)doc_read["motor"][i]);
     }
 }
 
-ISR(TIMER4_COMPA_vect){ // timer4 interrupt
+ISR(TIMER4_COMPA_vect)
+{          // timer4 interrupt
     sei(); // allow interrupts
 
     // doc_send["m_1"] = myData.m_1;
